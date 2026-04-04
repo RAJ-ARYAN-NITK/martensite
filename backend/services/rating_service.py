@@ -72,11 +72,31 @@ def increment_trip_count(driver_id: str):
         db.close()
 
 
+# def get_top_drivers(limit: int = 10) -> list[Driver]:
+#     """Get top rated drivers using min heap (inverted for max)."""
+#     db = SessionLocal()
+#     try:
+#         drivers = db.query(Driver).filter(Driver.is_available == True).all()
+
+#         # Max heap using negative ratings
+#         heap = [(-d.rating, idx, d) for idx, d in enumerate(drivers)]
+#         heapq.heapify(heap)
+
+#         top = []
+#         for _ in range(min(limit, len(heap))):
+#             _, _, driver = heapq.heappop(heap)
+#             top.append(driver)
+
+#         return top
+#     finally:
+#         db.close()
+
 def get_top_drivers(limit: int = 10) -> list[Driver]:
     """Get top rated drivers using min heap (inverted for max)."""
     db = SessionLocal()
     try:
-        drivers = db.query(Driver).filter(Driver.is_available == True).all()
+        # Removed the is_available filter so busy drivers still show on the leaderboard!
+        drivers = db.query(Driver).all()
 
         # Max heap using negative ratings
         heap = [(-d.rating, idx, d) for idx, d in enumerate(drivers)]
