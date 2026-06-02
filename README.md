@@ -1,6 +1,6 @@
 # Delivery Routing System
 
-A production-grade delivery routing backend inspired by Swiggy/Zomato — built with FastAPI, Kafka, Supabase, and Next.js. Features real-time driver assignment, surge pricing, route optimization, and JWT authentication.
+A production-grade, full-stack delivery routing system inspired by Swiggy/Zomato. Built with a FastAPI & Kafka microservice backend and a real-time Next.js dispatcher dashboard. Features real-time driver assignment, surge pricing, route optimization, and JWT authentication.
 
 ---
 
