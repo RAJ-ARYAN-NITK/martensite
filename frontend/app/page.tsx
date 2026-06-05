@@ -4,7 +4,7 @@ import Link from "next/link";
 export default function Home() {
   return (
     <main className="min-h-screen bg-gray-950 text-white flex flex-col items-center justify-center">
-      <h1 className="text-5xl font-bold mb-4">🚀 Delivery Routing System</h1>
+      <h1 className="text-5xl font-bold mb-4"> Delivery Routing System</h1>
       <p className="text-gray-400 mb-8 text-lg">
         Real-time driver assignment powered by Kafka + FastAPI
       </p>
