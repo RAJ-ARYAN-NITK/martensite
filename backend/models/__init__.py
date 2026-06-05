@@ -1,6 +1,6 @@
 from .driver import (
-    Driver,           # SQLAlchemy ORM model
-    DriverSchema,     # Pydantic schema
+    Driver,        
+    DriverSchema,     
     DriverStatus,
     Location,
     RegisterDriverRequest,
