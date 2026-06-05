@@ -1,11 +1,11 @@
 from db import engine, Base
-import models.driver  # noqa - ensures models are registered
-import models.order   # noqa
+import models.driver  
+import models.order   
 
 def init():
     print("Creating tables...")
     Base.metadata.create_all(bind=engine)
-    print("Done! Tables created in Supabase ✅")
+    print("Done! Tables created in Supabase ")
 
 if __name__ == "__main__":
     init()
