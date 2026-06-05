@@ -35,7 +35,7 @@ def process_order(order_data: dict):
                 order.driver_id = result.driver_id
                 order.status    = OrderStatus.ASSIGNED
                 db.commit()
-                logger.info(f"✅ Order {order_id} assigned to {result.driver_name}")
+                logger.info(f" Order {order_id} assigned to {result.driver_name}")
 
             # Broadcast assignment event to Kafka
             publish_driver_assignment({
@@ -48,7 +48,7 @@ def process_order(order_data: dict):
                 "distance_to_pickup_km": result.distance_to_pickup_km,
             })
         else:
-            logger.warning(f"⚠️  No drivers available for order {order_id}")
+            logger.warning(f" No drivers available for order {order_id}")
 
     except Exception as e:
         logger.error(f"Error processing order {order_data}: {e}")
@@ -67,35 +67,35 @@ def start_order_consumer():
         try:
             consumer = KafkaConsumer(
                 "new-orders",
-                # 🚨 UPDATED FALLBACK TO DOCKER NETWORK 🚨
+                #  UPDATED FALLBACK TO DOCKER NETWORK 
                 bootstrap_servers=os.getenv("KAFKA_BOOTSTRAP_SERVERS", "kafka:29092"),
                 value_deserializer=lambda v: json.loads(v.decode("utf-8")),
                 group_id="order-processor",
                 auto_offset_reset="earliest",
-                # 🚨 RELAXED TIMEOUTS SO KAFKA HAS TIME TO HANDSHAKE 🚨
+                #  RELAXED TIMEOUTS SO KAFKA HAS TIME TO HANDSHAKE 
                 api_version_auto_timeout_ms=30000,
                 request_timeout_ms=30000
             )
-            logger.info("🎧 ✅ Order consumer connected & listening on 'new-orders'")
+            logger.info(" Order consumer connected & listening on 'new-orders'")
             break  # Break out of the retry loop if successful
         except Exception as e:
-            logger.warning(f"⏳ Kafka consumer not ready. Retrying in 3s... ({retries} left)")
+            logger.warning(f" Kafka consumer not ready. Retrying in 3s... ({retries} left)")
             time.sleep(3)
             retries -= 1
 
     # 2. FAIL-SAFE: If it never connected, stop the thread gracefully
     if not consumer:
-        logger.error("❌ Critical: Consumer failed to connect to Kafka after retries. Thread exiting.")
+        logger.error(" Critical: Consumer failed to connect to Kafka after retries. Thread exiting.")
         return
 
     # 3. INFINITE POLLING LOOP: Process orders forever
     try:
         while True:
             for message in consumer:
-                logger.info(f"📦 New order received: {message.value}")
+                logger.info(f" New order received: {message.value}")
                 process_order(message.value)
     except Exception as e:
-        logger.error(f"❌ Consumer crashed during polling: {e}")
+        logger.error(f" Consumer crashed during polling: {e}")
 
 def start_consumer_thread():
     """Start consumer in background so it doesn't block FastAPI."""
