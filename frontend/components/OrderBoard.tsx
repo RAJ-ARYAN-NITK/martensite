@@ -11,7 +11,7 @@ const STATUS_COLORS: Record<string, string> = {
 export default function OrderBoard({ orders }: { orders: any[] }) {
   return (
     <div className="bg-gray-900 rounded-xl p-6">
-      <h2 className="text-xl font-bold text-white mb-4">📦 Live Orders</h2>
+      <h2 className="text-xl font-bold text-white mb-4"> Live Orders</h2>
       {orders.length === 0 ? (
         <p className="text-gray-400">No orders yet</p>
       ) : (
@@ -27,7 +27,7 @@ export default function OrderBoard({ orders }: { orders: any[] }) {
                   ₹{order.final_price}
                   {order.surge_multiplier > 1 && (
                     <span className="text-orange-400 ml-2">
-                      🔥 {order.surge_multiplier}x surge
+                       {order.surge_multiplier}x surge
                     </span>
                   )}
                 </p>
